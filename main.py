@@ -3,6 +3,9 @@ from sqlalchemy import text
 from app.core.config import settings
 from app.db.session import engine
 from fastapi import FastAPI
+
+from fastapi import HTTPException
+from app.services.pokeapi import get_pokemon
 app = FastAPI()
 
 
@@ -29,3 +32,11 @@ def health():
         "app": settings.APP_NAME,
         "database": db_status,
     }
+@app.get("/api/v1/pokemon/{name}")
+def read_pokemon(name: str):
+    try:
+        return get_pokemon(name)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Pokemon not found")
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=str(e))
