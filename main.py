@@ -1,3 +1,12 @@
+from uuid import UUID
+
+from fastapi import Depends, HTTPException
+from sqlalchemy.orm import Session, joinedload
+
+from app.db.session import get_db
+from app.models.team import Team, TeamMember
+from app.schemas.team import TeamCreate, TeamMemberCreate, TeamRead
+from app.services.pokeapi import get_pokemon
 
 from sqlalchemy import text
 from app.core.config import settings
@@ -6,6 +15,7 @@ from fastapi import FastAPI
 
 from fastapi import HTTPException
 from app.services.pokeapi import get_pokemon
+
 app = FastAPI()
 
 
@@ -40,3 +50,108 @@ def read_pokemon(name: str):
         raise HTTPException(status_code=404, detail="Pokemon not found")
     except Exception as e:
         raise HTTPException(status_code=502, detail=str(e))
+
+@app.post("/api/v1/teams", response_model=TeamRead, status_code=201)
+def create_team(payload: TeamCreate, db: Session = Depends(get_db)):
+    team = Team(name=payload.name.strip())
+    db.add(team)
+    db.commit()
+    db.refresh(team)
+    return team
+
+
+@app.get("/api/v1/teams", response_model=list[TeamRead])
+def list_teams(db: Session = Depends(get_db)):
+    return db.query(Team).options(joinedload(Team.members)).all()
+@app.post("/api/v1/teams", response_model=TeamRead, status_code=201)
+def create_team(payload: TeamCreate, db: Session = Depends(get_db)):
+    team = Team(name=payload.name.strip())
+    db.add(team)
+    db.commit()
+    db.refresh(team)
+    return team
+
+
+@app.get("/api/v1/teams", response_model=list[TeamRead])
+def list_teams(db: Session = Depends(get_db)):
+    return db.query(Team).options(joinedload(Team.members)).all()
+
+
+@app.get("/api/v1/teams/{team_id}", response_model=TeamRead)
+def get_team(team_id: UUID, db: Session = Depends(get_db)):
+    team = (
+        db.query(Team)
+        .options(joinedload(Team.members))
+        .filter(Team.id == team_id)
+        .first()
+    )
+    if not team:
+        raise HTTPException(status_code=404, detail="Team not found")
+    return team
+
+
+@app.post("/api/v1/teams/{team_id}/members", response_model=TeamRead, status_code=201)
+def add_member(team_id: UUID, payload: TeamMemberCreate, db: Session = Depends(get_db)):
+    team = (
+        db.query(Team)
+        .options(joinedload(Team.members))
+        .filter(Team.id == team_id)
+        .first()
+    )
+    if not team:
+        raise HTTPException(status_code=404, detail="Team not found")
+
+    if len(team.members) >= 6:
+        raise HTTPException(status_code=409, detail="Team already has 6 members")
+
+    if any(m.slot_number == payload.slot_number for m in team.members):
+        raise HTTPException(status_code=409, detail="Slot already occupied")
+
+    try:
+        pokemon = get_pokemon(payload.pokemon_name)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Pokemon not found")
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+    member = TeamMember(
+        team_id=team.id,
+        pokemon_id=pokemon["id"],
+        pokemon_name=pokemon["name"],
+        sprite_url=pokemon["sprite_url"],
+        slot_number=payload.slot_number,
+    )
+    db.add(member)
+    db.commit()
+
+    team = (
+        db.query(Team)
+        .options(joinedload(Team.members))
+        .filter(Team.id == team_id)
+        .first()
+    )
+    return team
+
+
+@app.delete("/api/v1/teams/{team_id}/members/{member_id}", status_code=204)
+def remove_member(team_id: UUID, member_id: UUID, db: Session = Depends(get_db)):
+    member = (
+        db.query(TeamMember)
+        .filter(TeamMember.id == member_id, TeamMember.team_id == team_id)
+        .first()
+    )
+    if not member:
+        raise HTTPException(status_code=404, detail="Member not found")
+    db.delete(member)
+    db.commit()
+    return None
+
+
+@app.delete("/api/v1/teams/{team_id}", status_code=204)
+def delete_team(team_id: UUID, db: Session = Depends(get_db)):
+    team = db.query(Team).filter(Team.id == team_id).first()
+    if not team:
+        raise HTTPException(status_code=404, detail="Team not found")
+    db.delete(team)
+    db.commit()
+    return None
