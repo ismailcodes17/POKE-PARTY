@@ -14,21 +14,29 @@ export default function PokemonPage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const [p, t] = await Promise.all([fetchPokemon(params.name), listTeams()]);
-        setPokemon(p);
-        setTeams(t);
-        if (t[0]) setTeamId(t[0].id);
-      } catch {
-        setError("Could not load Pokémon");
-      } finally {
-        setLoading(false);
-      }
+ useEffect(() => {
+  async function load() {
+    try {
+      const p = await fetchPokemon(params.name);
+      setPokemon(p);
+    } catch {
+      setError("Could not load Pokémon");
+      setLoading(false);
+      return;
     }
-    load();
-  }, [params.name]);
+
+    try {
+      const t = await listTeams();
+      setTeams(t);
+      if (t[0]) setTeamId(t[0].id);
+    } catch {
+      // Pokémon can still show even if teams fail
+    } finally {
+      setLoading(false);
+    }
+  }
+  load();
+}, [params.name]);
 
   async function handleAdd() {
     if (!teamId) {
