@@ -26,12 +26,18 @@ export type Team = {
 };
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const method = (options?.method || "GET").toUpperCase();
+  const headers = new Headers(options?.headers || {});
+
+  // Only set JSON content-type when sending a body.
+  // Putting it on GET triggers a CORS preflight that was failing on Render.
+  if (method !== "GET" && method !== "HEAD" && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
   const res = await fetch(`${API_URL}${path}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options?.headers || {}),
-    },
+    headers,
   });
 
   if (!res.ok) {

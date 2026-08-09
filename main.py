@@ -17,12 +17,18 @@ from fastapi import HTTPException
 from app.services.pokeapi import get_pokemon
 
 app = FastAPI()
+
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000","https://poke-party-git-main-ismailcodes17s-projects.vercel.app/"]
-    allow_credentials=True,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://poke-party-git-main-ismailcodes17s-projects.vercel.app",
+        "https://poke-party-ismailcodes17s-projects.vercel.app",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
