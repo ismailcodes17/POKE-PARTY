@@ -5,33 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a8c2471-461a-4eec-ae19-28ec71f07f62" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/pokemon/[name]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/teams/[id]/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/teams/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/lib/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/AGENTS.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/CLAUDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/app/globals.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/app/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/app/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/bun.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/eslint.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/next.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/postcss.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +101,7 @@
       <workItem from="1786157916630" duration="1024000" />
       <workItem from="1786159040201" duration="200000" />
       <workItem from="1786159259272" duration="2529000" />
-      <workItem from="1786245974449" duration="2743000" />
+      <workItem from="1786245974449" duration="3332000" />
     </task>
     <servers />
   </component>
