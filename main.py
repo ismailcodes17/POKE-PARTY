@@ -17,7 +17,15 @@ from fastapi import HTTPException
 from app.services.pokeapi import get_pokemon
 
 app = FastAPI()
+from fastapi.middleware.cors import CORSMiddleware
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
@@ -51,18 +59,7 @@ def read_pokemon(name: str):
     except Exception as e:
         raise HTTPException(status_code=502, detail=str(e))
 
-@app.post("/api/v1/teams", response_model=TeamRead, status_code=201)
-def create_team(payload: TeamCreate, db: Session = Depends(get_db)):
-    team = Team(name=payload.name.strip())
-    db.add(team)
-    db.commit()
-    db.refresh(team)
-    return team
 
-
-@app.get("/api/v1/teams", response_model=list[TeamRead])
-def list_teams(db: Session = Depends(get_db)):
-    return db.query(Team).options(joinedload(Team.members)).all()
 @app.post("/api/v1/teams", response_model=TeamRead, status_code=201)
 def create_team(payload: TeamCreate, db: Session = Depends(get_db)):
     team = Team(name=payload.name.strip())
