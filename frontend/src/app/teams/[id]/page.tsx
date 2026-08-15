@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getTeam, removeMember, type Team } from "@/lib/api";
-
+<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4"
 export default function TeamDetailPage() {
   const params = useParams<{ id: string }>();
   const [team, setTeam] = useState<Team | null>(null);
@@ -64,7 +64,6 @@ export default function TeamDetailPage() {
                     <img src={member.sprite_url} alt={member.pokemon_name} width={96} height={96} />
                   )}
                   <div style={{ textTransform: "capitalize" }}>{member.pokemon_name}</div>
-                  <button onClick={() => handleRemove(member.id)} style={{ marginTop: 8 }}>
                     Remove
                   </button>
                 </>

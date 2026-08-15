@@ -15,19 +15,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           style={{
             background: "#111",
             color: "white",
-            padding: "12px 20px",
+            padding: "12px 16px",
             display: "flex",
-            gap: 16,
+            flexWrap: "wrap",
+            gap: 12,
             alignItems: "center",
           }}
         >
-          <strong>PokéParty</strong>
-          <Link href="/" style={{ color: "white" }}>
-            Search
-          </Link>
-          <Link href="/teams" style={{ color: "white" }}>
-            Teams
-          </Link>
+          <strong style={{ marginRight: 8 }}>PokéParty</strong>
+          <Link href="/" style={{ color: "white" }}>Search</Link>
+          <Link href="/teams" style={{ color: "white" }}>Teams</Link>
         </header>
         {children}
       </body>

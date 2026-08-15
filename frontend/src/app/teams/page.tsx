@@ -1,92 +1,133 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { createTeam, deleteTeam, listTeams, type Team } from "@/lib/api";
+import { useParams } from "next/navigation";
+import { addMember, fetchPokemon, listTeams, type Pokemon, type Team } from "@/lib/api";
 
-export default function TeamsPage() {
+export default function PokemonPage() {
+  const params = useParams<{ name: string }>();
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [teams, setTeams] = useState<Team[]>([]);
-  const [name, setName] = useState("");
+  const [teamId, setTeamId] = useState("");
+  const [slot, setSlot] = useState(1);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  async function load() {
-    setLoading(true);
-    try {
-      setTeams(await listTeams());
-    } catch {
-      setError("Could not load teams");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    load();
-  }, []);
+    async function load() {
+      try {
+        const p = await fetchPokemon(params.name);
+        setPokemon(p);
+      } catch {
+        setError("Could not load Pokémon");
+        setLoading(false);
+        return;
+      }
 
-  async function handleCreate() {
-    if (!name.trim()) return;
+      try {
+        const t = await listTeams();
+        setTeams(t);
+        if (t[0]) setTeamId(t[0].id);
+      } catch {
+        // Pokémon can still show even if teams fail
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [params.name]);
+
+  async function handleAdd() {
+    if (!teamId) {
+      setError("Create a team first on the Teams page");
+      return;
+    }
     setError("");
+    setMessage("");
     try {
-      await createTeam(name.trim());
-      setName("");
-      await load();
-    } catch {
-      setError("Could not create team");
+      await addMember(teamId, params.name, slot);
+      setMessage(`Added to slot ${slot}`);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not add member");
     }
   }
 
-  async function handleDelete(id: string) {
-    await deleteTeam(id);
-    await load();
+  if (loading) {
+    return (
+      <main style={{ width: "min(700px, 100%)", margin: "24px auto", padding: "0 16px" }}>
+        Loading...
+      </main>
+    );
+  }
+
+  if (!pokemon) {
+    return (
+      <main style={{ width: "min(700px, 100%)", margin: "24px auto", padding: "0 16px" }}>
+        {error || "Not found"}
+      </main>
+    );
   }
 
   return (
-    <main style={{ maxWidth: 700, margin: "40px auto", padding: 16 }}>
-      <h1>Teams</h1>
+    <main
+      style={{
+        width: "min(700px, 100%)",
+        margin: "24px auto",
+        padding: "0 16px 32px",
+        boxSizing: "border-box",
+      }}
+    >
+      <h1 style={{ textTransform: "capitalize", wordBreak: "break-word" }}>{pokemon.name}</h1>
 
-      <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="New team name"
-          style={{ flex: 1, padding: 10 }}
+      {pokemon.sprite_url && (
+        <img
+          src={pokemon.sprite_url}
+          alt={pokemon.name}
+          width={140}
+          height={140}
+          style={{ maxWidth: "100%", height: "auto" }}
         />
-        <button onClick={handleCreate} style={{ padding: "10px 14px" }}>
-          Create
+      )}
+
+      <p>Types: {pokemon.types.join(", ")}</p>
+      <p>Abilities: {pokemon.abilities.join(", ")}</p>
+
+      <h3 style={{ marginTop: 24 }}>Add to team</h3>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <select
+          value={teamId}
+          onChange={(e) => setTeamId(e.target.value)}
+          style={{ padding: 8, flex: "1 1 160px", minWidth: 0 }}
+        >
+          {teams.length === 0 && <option value="">No teams yet</option>}
+          {teams.map((t) => (
+            <option key={t.id} value={t.id}>
+              {t.name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={slot}
+          onChange={(e) => setSlot(Number(e.target.value))}
+          style={{ padding: 8, flex: "1 1 120px", minWidth: 0 }}
+        >
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <option key={n} value={n}>
+              Slot {n}
+            </option>
+          ))}
+        </select>
+
+        <button onClick={handleAdd} style={{ padding: "8px 12px" }}>
+          Add
         </button>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {message && <p style={{ color: "green" }}>{message}</p>}
       {error && <p style={{ color: "crimson" }}>{error}</p>}
-      {!loading && teams.length === 0 && <p>No teams yet.</p>}
-
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {teams.map((team) => (
-          <li
-            key={team.id}
-            style={{
-              background: "white",
-              border: "1px solid #ddd",
-              borderRadius: 8,
-              padding: 12,
-              marginBottom: 10,
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 8,
-            }}
-          >
-            <div>
-              <Link href={`/teams/${team.id}`}>
-                <strong>{team.name}</strong>
-              </Link>
-              <div>{team.members.length}/6 members</div>
-            </div>
-            <button onClick={() => handleDelete(team.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
     </main>
   );
 }
