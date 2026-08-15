@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9a8c2471-461a-4eec-ae19-28ec71f07f62" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/teams/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/teams/[id]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/teams/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/teams/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,7 +105,7 @@
       <workItem from="1786331603038" duration="1301000" />
       <workItem from="1786589607253" duration="2642000" />
       <workItem from="1786595271483" duration="891000" />
-      <workItem from="1786762181287" duration="1314000" />
+      <workItem from="1786762181287" duration="1608000" />
     </task>
     <servers />
   </component>
@@ -124,10 +120,16 @@
           <line>2</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/app/teams/page.tsx</url>
+          <line>89</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/POKE_PARTY$POKE_PARTY.coverage" NAME="POKE PARTY Coverage Results" MODIFIED="1786246038697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/POKE_PARTY$POKE_PARTY.coverage" NAME="POKE PARTY Coverage Results" MODIFIED="1786763946525" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
