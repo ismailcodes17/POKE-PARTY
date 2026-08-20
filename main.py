@@ -1,31 +1,25 @@
 from uuid import UUID
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from sqlalchemy.orm import Session, joinedload
 
-from app.db.session import get_db
+from app.core.config import settings
+from app.db.session import engine, get_db
 from app.models.team import Team, TeamMember
 from app.schemas.team import TeamCreate, TeamMemberCreate, TeamRead
 from app.services.pokeapi import get_pokemon
 
-from sqlalchemy import text
-from app.core.config import settings
-from app.db.session import engine
-from fastapi import FastAPI
-
-from fastapi import HTTPException
-from app.services.pokeapi import get_pokemon
-
-app = FastAPI()
-
-from fastapi.middleware.cors import CORSMiddleware
+app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://poke-party-git-main-ismailcodes17s-projects.vercel.app",
+        "https://poke-party.vercel.app",
         "https://poke-party-ismailcodes17s-projects.vercel.app",
+        "https://poke-party-git-main-ismailcodes17s-projects.vercel.app",
     ],
     allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=False,
@@ -33,14 +27,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+def root():
+    return {"message": "PokéParty API"}
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
 
 @app.get("/api/v1/health")
 def health():
@@ -56,6 +47,8 @@ def health():
         "app": settings.APP_NAME,
         "database": db_status,
     }
+
+
 @app.get("/api/v1/pokemon/{name}")
 def read_pokemon(name: str):
     try:

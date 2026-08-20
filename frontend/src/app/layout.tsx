@@ -23,8 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           <strong style={{ marginRight: 8 }}>PokéParty</strong>
-          <Link href="/" style={{ color: "white" }}>Search</Link>
-          <Link href="/teams" style={{ color: "white" }}>Teams</Link>
+          <Link href="/" style={{ color: "white" }}>
+            Search
+          </Link>
+          <Link href="/teams" style={{ color: "white" }}>
+            Teams
+          </Link>
         </header>
         {children}
       </body>
