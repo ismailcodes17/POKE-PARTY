@@ -58,6 +58,26 @@ bun run dev
 
 App: http://localhost:3000
 
+## Tests
+
+### Backend (pytest)
+
+Start Postgres, then from project root:
+
+```bash
+docker compose up -d db
+pip install -r requirements.txt
+pytest -q
+```
+
+### Frontend (Vitest)
+
+```bash
+cd frontend
+bun install
+bun run test
+```
+
 ## Notes
 
 - Never commit `.env` or `frontend/.env.local`
