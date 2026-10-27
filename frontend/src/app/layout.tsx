@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         {children}
         <footer style={{ padding: "20px 16px", fontSize: 14 }}>
-          <a href="https://ismailcodes17.github.io/my-portfolio/" style={{ color: "#fff" }}>
+          <a href="https://ismailsportfolio.vercel.app" style={{ color: "#fff" }}>
             Ismail Jeylani
           </a>
         </footer>
