@@ -21,8 +21,8 @@ export default function Home() {
         boxSizing: "border-box",
       }}
     >
-      <h1 style={{ fontSize: "clamp(1.6rem, 4vw, 2rem)" }}>PokéParty</h1>
-      <p>Search a Pokémon, then add it to a saved team.</p>
+      <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.4rem)", marginBottom: 8 }}>PokéParty</h1>
+      <p style={{ color: "#c4c4c4" }}>Search a Pokémon, then add it to a saved team.</p>
 
       <div
         style={{
@@ -37,9 +37,9 @@ export default function Home() {
           onChange={(e) => setName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           placeholder="e.g. pikachu"
-          style={{ flex: "1 1 220px", padding: 10, minWidth: 0 }}
+          style={{ flex: "1 1 220px", padding: 12, minWidth: 0, background: "#111", color: "#fff", border: "1px solid #333", borderRadius: 10 }}
         />
-        <button onClick={handleSearch} style={{ padding: "10px 14px", flex: "0 0 auto" }}>
+        <button onClick={handleSearch} style={{ padding: "12px 16px", flex: "0 0 auto", background: "#fff", color: "#000", border: 0, borderRadius: 999, fontWeight: 700 }}>
           Search
         </button>
       </div>
